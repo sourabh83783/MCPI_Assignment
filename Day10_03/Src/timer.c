@@ -4,11 +4,11 @@
  *  Created on: Apr 4, 2024
  *      Author: sourabh
  */
-#include<stdio.h>
 #include "i2c_lcd.h"
 #include "timer.h"
+#include "led.h"
 
-volatile int counter = 0;
+int counter = 0;
 
 void TimerInit(uint32_t ms) {
 
@@ -29,7 +29,25 @@ void TimerInit(uint32_t ms) {
 }
 
 
-void TIM7_IRQHandler (void)
+void TIM7_IRQHandler(void)
+{
+	static int flag = 0;
+
+	if(TIM7->SR & TIM_SR_UIF) {
+
+		TIM7->SR &= ~TIM_SR_UIF;
+
+		if(flag == 0) {
+			LedOn(LED_BLUE);
+			counter++;
+			flag = 1;
+		} else {
+			LedOff(LED_BLUE);
+			flag = 0;
+		}
+	}
+}
+/*void TIM7_IRQHandler (void)
 {
 	char str[24];
 
@@ -42,7 +60,7 @@ void TIM7_IRQHandler (void)
 			LcdPuts(LCD_LINE2, str);
 
 	}
-}
+}*/
 
 
 

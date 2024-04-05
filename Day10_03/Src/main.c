@@ -28,14 +28,22 @@
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
-
+extern int counter;
 int main(void)
 {
-    int ret;
+
+    char str[24];
 	SystemInit();
-    ret = LcdInit();
-	LcdPuts(LCD_LINE1, "!INTURRUPT COUNT!");
+	LedInit(LED_BLUE);
+
 	TimerInit(1000);
+
+    LcdInit();
+	LcdPuts(LCD_LINE1, "!INTURRUPT COUNT!");
+	while(1){
+			sprintf(str, "Count %d",counter);
+			LcdPuts(LCD_LINE2, str);
+	}
 	while(1);
 	return 0;
 }

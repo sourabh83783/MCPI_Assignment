@@ -13,7 +13,7 @@
 
 #define TCLK		16000000
 #define TIM_PR		16000
-
+extern int counter;
 void TimerInit(uint32_t ms);
 
 #endif /* TIMER_H_ */
